@@ -38,7 +38,12 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async findById(id: string): Promise<Order | undefined> {
-    // TODO
+    const order = await this.ormRepository.find({
+      where: {
+        id,
+      },
+    });
+    return order[0] || undefined;
   }
 }
 
