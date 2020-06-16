@@ -5,6 +5,7 @@
   "username": "postgres",
   "password": "postgres",
   "database": "gostack_desafio09",
+  "synchronize": true,
   "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
   "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
   "cli": {
