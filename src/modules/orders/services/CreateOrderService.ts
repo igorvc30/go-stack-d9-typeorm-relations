@@ -6,10 +6,13 @@ import IProductsRepository from '@modules/products/repositories/IProductsReposit
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
 import Order from '../infra/typeorm/entities/Order';
 import IOrdersRepository from '../repositories/IOrdersRepository';
+import Product from '@modules/products/infra/typeorm/entities/Product';
 
 interface IProduct {
   id: string;
   quantity: number;
+  product_id: string;
+  price: number;
 }
 
 interface IRequest {
@@ -33,22 +36,40 @@ class CreateOrderService {
     if (!customer) {
       throw new AppError("The customer wasn't found.");
     }
-    const foundProducts = await this.productsRepository.findAllById(products);
-    let p = [];
-    products.forEach(product => {
-      foundProducts.forEach(o => {
-        if (product.id === o.id) {
-          p.push({
-            ...o,
-            quantity: product.quantity,
+    let foundProducts: Array<Product> = [];
+    try {
+      foundProducts = await this.productsRepository.findAllById(products);
+    } catch (error) {
+      throw new AppError('Product not found.');
+    }
+    if (foundProducts.length !== products.length) {
+      throw new AppError('Product not found.');
+    }
+    let producstOrder: Array<IProduct> = [];
+    products.forEach(productOrder => {
+      foundProducts.forEach(product => {
+        if (productOrder.id === product.id) {
+          if (productOrder.quantity > product.quantity) {
+            throw new AppError('Insuficient product quantity.');
+          }
+          producstOrder.push({
+            ...product,
+            quantity: productOrder.quantity,
+            product_id: product.id,
+            price: product.price,
           });
+          this.productsRepository.updateQuantity([
+            {
+              id: product.id,
+              quantity: product.quantity - productOrder.quantity,
+            },
+          ]);
         }
       });
     });
-    // console.log(`ACHOU PRODUTOS: ${JSON.stringify(foundProducts)}`);
     const order = this.ordersRepository.create({
       customer,
-      products: p,
+      products: producstOrder,
     });
 
     return order;
