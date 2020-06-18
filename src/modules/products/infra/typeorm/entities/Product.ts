@@ -17,7 +17,7 @@ class Product {
   @Column()
   name: string;
 
-  @Column({ type: 'decimal', precision: 4, scale: 2 })
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
   price: number;
 
   @Column()
@@ -26,10 +26,10 @@ class Product {
   @OneToMany(type => OrdersProducts, ordersProducts => ordersProducts.product)
   order_products: OrdersProducts[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }
 

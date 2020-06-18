@@ -31,16 +31,16 @@ class OrdersProducts {
   @RelationId((ordersProducts: OrdersProducts) => ordersProducts.order)
   order_id: string;
 
-  @Column({ type: 'decimal', precision: 4, scale: 2 })
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
   price: number;
 
   @Column()
   quantity: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }
 

@@ -29,10 +29,10 @@ class Order {
   @JoinColumn()
   order_products: OrdersProducts[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }
 
