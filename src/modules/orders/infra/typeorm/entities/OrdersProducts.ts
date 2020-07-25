@@ -6,7 +6,6 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
-  RelationId,
 } from 'typeorm';
 
 import Order from '@modules/orders/infra/typeorm/entities/Order';
@@ -18,17 +17,17 @@ class OrdersProducts {
   id: string;
 
   @ManyToOne(type => Order, order => order.order_products)
-  @JoinColumn()
+  @JoinColumn({ name: 'order_id' })
   order: Order;
 
   @ManyToOne(type => Product, product => product.order_products)
-  @JoinColumn()
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @RelationId((ordersProducts: OrdersProducts) => ordersProducts.product)
+  @Column()
   product_id: string;
 
-  @RelationId((ordersProducts: OrdersProducts) => ordersProducts.order)
+  @Column()
   order_id: string;
 
   @Column({ type: 'decimal', precision: 6, scale: 2 })

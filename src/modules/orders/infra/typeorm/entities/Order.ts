@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
   OneToMany,
   ManyToOne,
@@ -20,7 +19,7 @@ class Order {
   @ManyToOne(() => Customer, {
     eager: true,
   })
-  @JoinColumn()
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
   @OneToMany(type => OrdersProducts, ordersProducts => ordersProducts.order, {

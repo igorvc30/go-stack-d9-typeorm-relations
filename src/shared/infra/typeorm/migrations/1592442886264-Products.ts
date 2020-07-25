@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class Products1592442886264 implements MigrationInterface {
+export default class Products1592442886264 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -18,7 +18,7 @@ export class Products1592442886264 implements MigrationInterface {
             type: 'varchar',
           },
           { name: 'quantity', type: 'int' },
-          { name: 'price', type: 'decimal', precision: 6, scale: 2 },
+          { name: 'price', type: 'decimal', precision: 10, scale: 2 },
           {
             name: 'created_at',
             type: 'timestamp',

@@ -19,8 +19,7 @@ describe('App', () => {
     await connection.query('DROP TABLE IF EXISTS customers');
     await connection.query('DROP TABLE IF EXISTS migrations');
 
-    await connection.synchronize(true);
-    // await connection.runMigrations();
+    await connection.runMigrations();
   });
 
   beforeEach(async () => {
